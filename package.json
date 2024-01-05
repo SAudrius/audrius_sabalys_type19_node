@@ -1,0 +1,36 @@
+{
+  "name": "audrius_sabalys_type19_node",
+  "version": "1.0.0",
+  "description": "final node project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "tailwind": "npx tailwindcss -i ./public/src/css/input.css -o ./public/dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SAudrius/audrius_sabalys_type19_node.git"
+  },
+  "author": "Audrius Sabalys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SAudrius/audrius_sabalys_type19_node/issues"
+  },
+  "homepage": "https://github.com/SAudrius/audrius_sabalys_type19_node#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.11.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "nodemon": "^3.0.2",
+    "tailwindcss": "^3.4.0"
+  }
+}
