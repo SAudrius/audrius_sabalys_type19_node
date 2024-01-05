@@ -1,0 +1,19 @@
+{
+  "name": "audrius_sabalys_type19_node",
+  "version": "1.0.0",
+  "description": "final node project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none yet"
+  },
+  "author": "Audrius Sabalys",
+  "license": "ISC",
+  "bugs": {
+    "url": "none yet"
+  },
+  "homepage": "none yet"
+}
