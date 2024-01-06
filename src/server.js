@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5002;
 
 // middleware
 app.use(cors());
+app.use(express.json());
 
 // routes
 app.use('/v1/api/auth', authRoute);

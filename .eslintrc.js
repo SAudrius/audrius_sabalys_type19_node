@@ -11,9 +11,7 @@ module.exports = {
       env: {
         node: true,
       },
-      files: [
-        '.eslintrc.{js,cjs}',
-      ],
+      files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
         sourceType: 'script',
       },
@@ -23,5 +21,6 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'no-console': 'off',
   },
 };
