@@ -18,6 +18,7 @@ const validateUsers = async (req, res, next) => {
     role_id: Joi.number(),
   });
   try {
+    // eslint-disable-next-line no-unused-vars
     const validateRes = await usersSchema.validateAsync(req.body, {
       abortEarly: false,
     });
@@ -38,6 +39,7 @@ const validateShopItems = async (req, res, next) => {
     item_type_id: Joi.number().required(),
   });
   try {
+    // eslint-disable-next-line no-unused-vars
     const validateRes = await ordersSchema.validateAsync(req.body, {
       abortEarly: false,
     });
