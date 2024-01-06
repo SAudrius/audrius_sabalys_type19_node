@@ -14,6 +14,15 @@ async function dbQueryWithData(sql, argArr = []) {
   }
 }
 
+function getValidationErrors(err) {
+  console.log('err ===', err);
+  return err.details.map((obj) => ({
+    message: obj.message,
+    key: obj.context.key,
+  }));
+}
+
 module.exports = {
   dbQueryWithData,
+  getValidationErrors,
 };

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const authRoute = require('./routes/v1/authRoutes');
 const shopItemsRouter = require('./routes/v1/shopItemsRoutes');
 const ordersRoute = require('./routes/v1/ordersRoutes');
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 5002;
 
 // middleware
 app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
 
 // routes

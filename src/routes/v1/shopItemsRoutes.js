@@ -1,5 +1,6 @@
 const express = require('express');
 const { dbQueryWithData } = require('../../helper');
+const { validateShopItems } = require('../../middleware');
 
 const shopItemsRouter = express.Router();
 
@@ -24,7 +25,7 @@ shopItemsRouter.get('/:id', async (req, res) => {
   res.json(itemsArr);
 });
 
-shopItemsRouter.post('/', async (req, res) => {
+shopItemsRouter.post('/', validateShopItems, async (req, res) => {
   const {
     name,
     price,
