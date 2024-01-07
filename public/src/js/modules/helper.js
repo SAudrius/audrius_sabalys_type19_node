@@ -67,16 +67,14 @@ function createElement(el, attrArr, textContent = null) {
 }
 
 export async function fetchData(url, method = 'GET', postObj = null) {
-  console.log('method ===', method);
   const fetchArgs = {};
   fetchArgs.method = method;
   if (postObj !== null) {
-    fetchArgs.body = postObj;
+    fetchArgs.body = JSON.stringify(postObj);
     fetchArgs.headers = {
       'Content-Type': 'application/json',
     };
   }
-  console.log('fetchArgs ===', fetchArgs);
   try {
     const res = await fetch(url, fetchArgs);
     const data = await res.json();
@@ -84,6 +82,39 @@ export async function fetchData(url, method = 'GET', postObj = null) {
   } catch (err) {
     return [null, err];
   }
+}
+
+export function displayFormErrors(errorObj, form) {
+  const elementsToRemove = document.querySelectorAll('.error-field-active');
+  elementsToRemove.forEach((element) => {
+    element.remove();
+  });
+  console.log('errorObj.errors ===', Object.entries(errorObj.errors));
+  for (const [key, value] of Object.entries(errorObj.errors)) {
+    console.log('key ===', key);
+    console.log('value ===', value.key);
+    console.log('value ===', value.message);
+    const inputElement = form.querySelector(`#${value.key}`);
+    const elementToAppend = inputElement.parentElement;
+    const element = createElement(
+      'p',
+      [{ class: ['mt-1', 'text-red-500', 'error-field-active'] }],
+      value.message
+    );
+    console.log('element ===', element);
+    elementToAppend.append(element);
+    inputElement.classList.remove('border-primary');
+    inputElement.classList.add('border-red-500');
+  }
+}
+
+export function createOptionArr(arr) {
+  return arr.map((obj) => {
+    const el = document.createElement('option');
+    el.value = obj.id;
+    el.textContent = obj.name;
+    return el;
+  });
 }
 
 export function displayCard(obj) {
@@ -96,7 +127,10 @@ export function displayCard(obj) {
   const mainDiv = createElement('div', [{ class: ['w-300'] }]);
   const imgEl = createElement('img', [
     { src: [imageUrl] },
-    { alt: ['Product image'], class: ['bg-gray-500', 'h-60', 'rounded-t-xl'] },
+    {
+      alt: ['Product image'],
+      class: ['bg-gray-500', 'h-60', 'rounded-t-xl', 'object-cover', 'w-full'],
+    },
   ]);
   const secondDiv = createElement('div', [
     { class: ['p-4', 'bg-secondary', 'rounded-b-xl'] },

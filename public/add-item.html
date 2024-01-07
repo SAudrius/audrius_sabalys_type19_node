@@ -13,7 +13,8 @@
     <title>Document</title>
     <link href="./dist/output.css" rel="stylesheet" />
     <script type="module" src="./src/js/modules/header.js" defer></script>
-    <script type="module" src="./src/js/modules/footer.js" defer></script>
+    <script type="module" src="./src/js/modules/header.js" defer></script>
+    <script type="module" src="./src/js/addItem.js" defer></script>
   </head>
   <body class="font-montserrat">
     <header class="relative py-5 bg-secondary"></header>
@@ -21,15 +22,14 @@
       <h1 class="my-16 text-5xl text-center">Add item</h1>
       <form id="addItem" class="max-w-3xl mx-auto">
         <div class="flex flex-col w-full m-auto">
-          <label for="name" class="text-xl text-red-500">Item name</label>
+          <label for="name" class="text-xl">Item name</label>
           <input
             type="text"
             id="name"
             name="name"
             placeholder="Item name"
-            class="box-border px-4 py-3 mt-2 font-medium border border-red-500 bg-secondary rounded-xl"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
           />
-          <p class="mt-1 text-red-500">Name need to have a 3 letters</p>
         </div>
         <div class="flex flex-col w-full m-auto mt-6">
           <label for="price" class="text-xl">Price</label>
@@ -42,21 +42,21 @@
           />
         </div>
         <div class="flex flex-col w-full m-auto mt-6">
-          <label for="description" class="text-xl">description</label>
-          <input
-            type="description"
+          <label for="description" class="text-xl">Description</label>
+          <textarea
             id="description"
             name="description"
-            placeholder="Your password"
-            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
-          />
+            placeholder="Your description"
+            class="box-border h-32 px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          ></textarea>
         </div>
         <div class="flex flex-col w-full m-auto mt-6">
-          <label for="imageUrl" class="text-xl">Image url</label>
+          <label for="image" class="text-xl">Image url</label>
           <input
             type="url"
-            id="imageUrl"
-            name="imageUrl"
+            id="image"
+            value="https://picsum.photos/seed/picsum/200/300"
+            name="image"
             placeholder="Your url"
             class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
           />
@@ -65,13 +65,10 @@
           <label for="itemType" class="text-xl">Item type</label>
           <select
             name="itemType"
-            id="itemType"
+            id="item_type_id"
             class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
           >
             <option disabled value="" selected>Select item type</option>
-            <option value="0">Sport</option>
-            <option value="1">Clothes</option>
-            <option value="2">Technology</option>
           </select>
         </div>
         <button
