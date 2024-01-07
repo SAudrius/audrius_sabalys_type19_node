@@ -1,4 +1,3 @@
-import { els } from './config.js';
 import { createHamburgerClick } from './helper.js';
 // fetchinu header, kad nereiketu vel kuopijoti
 document.addEventListener('DOMContentLoaded', async () => {
