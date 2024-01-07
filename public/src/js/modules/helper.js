@@ -48,6 +48,110 @@ export function createHamburgerClick(headerElement, hamElement) {
   });
 }
 
-export function loger() {
-  console.log('hi');
+function createElement(el, attrArr, textContent = null) {
+  const element = document.createElement(el);
+  attrArr.forEach((attrObj) => {
+    for (const key in attrObj) {
+      attrObj[key].forEach((value) => {
+        if (key === 'class') {
+          element.classList.add(value);
+        } else {
+          element.setAttribute(key, value);
+        }
+        return element;
+      });
+    }
+  });
+  element.textContent = textContent;
+  return element;
+}
+
+export async function fetchData(url, method = 'GET', postObj = null) {
+  console.log('method ===', method);
+  const fetchArgs = {};
+  fetchArgs.method = method;
+  if (postObj !== null) {
+    fetchArgs.body = postObj;
+    fetchArgs.headers = {
+      'Content-Type': 'application/json',
+    };
+  }
+  console.log('fetchArgs ===', fetchArgs);
+  try {
+    const res = await fetch(url, fetchArgs);
+    const data = await res.json();
+    return [data, null];
+  } catch (err) {
+    return [null, err];
+  }
+}
+
+export function displayCard(obj) {
+  const id = obj.id;
+  const price = obj.price;
+  const name = obj.name;
+  const description = obj.description.slice(0, 53) + '...';
+  console.log('description ===', description);
+  const imageUrl = obj.image;
+  const mainDiv = createElement('div', [{ class: ['w-300'] }]);
+  const imgEl = createElement('img', [
+    { src: [imageUrl] },
+    { alt: ['Product image'], class: ['bg-gray-500', 'h-60', 'rounded-t-xl'] },
+  ]);
+  const secondDiv = createElement('div', [
+    { class: ['p-4', 'bg-secondary', 'rounded-b-xl'] },
+  ]);
+  const nameEl = createElement(
+    'h2',
+    [{ class: ['text-2xl', 'font-medium'] }],
+    name
+  );
+  const priceEl = createElement(
+    'p',
+    [{ class: ['mt-2', 'text-lg', 'font-medium'] }],
+    price
+  );
+  const descriptionEl = createElement('p', [{ class: ['mt-1'] }], description);
+  const buttonDiv = createElement('div', [
+    { class: ['flex', 'justify-between', 'mt-3'] },
+  ]);
+  const buttonDel = createElement(
+    'button',
+    [
+      {
+        class: [
+          'col-span-1',
+          'px-5',
+          'py-3',
+          'text-white',
+          'bg-red-400',
+          'rounded-xl',
+        ],
+      },
+      { type: ['button'] },
+    ],
+    'Delete'
+  );
+  const buttonAddToCart = createElement(
+    'button',
+    [
+      {
+        class: [
+          'col-span-1',
+          'px-5',
+          'py-3',
+          'text-white',
+          'justify-self-end',
+          'bg-primary',
+          'rounded-xl',
+        ],
+      },
+      { type: ['button'] },
+    ],
+    'Add to Cart'
+  );
+  buttonDiv.append(buttonDel, buttonAddToCart);
+  secondDiv.append(nameEl, priceEl, descriptionEl, buttonDiv);
+  mainDiv.append(imgEl, secondDiv);
+  els.shop.cards.append(mainDiv);
 }
