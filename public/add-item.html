@@ -18,7 +18,69 @@
   <body class="font-montserrat">
     <header class="relative py-5 bg-secondary"></header>
     <div class="container mx-auto">
-      <h1 class="my-16 text-5xl text-center">Orders</h1>
+      <h1 class="my-16 text-5xl text-center">Add item</h1>
+      <form id="addItem" class="max-w-3xl mx-auto">
+        <div class="flex flex-col w-full m-auto">
+          <label for="name" class="text-xl text-red-500">Item name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Item name"
+            class="box-border px-4 py-3 mt-2 font-medium border border-red-500 bg-secondary rounded-xl"
+          />
+          <p class="mt-1 text-red-500">Name need to have a 3 letters</p>
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="price" class="text-xl">Price</label>
+          <input
+            type="text"
+            id="price"
+            name="price"
+            placeholder="example 11.99"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="description" class="text-xl">description</label>
+          <input
+            type="description"
+            id="description"
+            name="description"
+            placeholder="Your password"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="imageUrl" class="text-xl">Image url</label>
+          <input
+            type="url"
+            id="imageUrl"
+            name="imageUrl"
+            placeholder="Your url"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="itemType" class="text-xl">Item type</label>
+          <select
+            name="itemType"
+            id="itemType"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          >
+            <option disabled value="" selected>Select item type</option>
+            <option value="0">Sport</option>
+            <option value="1">Clothes</option>
+            <option value="2">Technology</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          class="col-span-1 px-5 py-3 mt-6 text-white justify-self-end bg-primary rounded-xl"
+        >
+          Add to Cart
+        </button>
+      </form>
     </div>
     <footer class="grid px-4 py-10 mt-20 sm:px-0 bg-secondary"></footer>
   </body>
