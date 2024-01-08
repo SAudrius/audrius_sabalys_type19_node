@@ -85,15 +85,18 @@ export async function fetchData(url, method = 'GET', postObj = null) {
 }
 
 export function displayFormErrors(errorObj, form) {
+  // delete error messages before creating new
   const elementsToRemove = document.querySelectorAll('.error-field-active');
   elementsToRemove.forEach((element) => {
     element.remove();
   });
-  console.log('errorObj.errors ===', Object.entries(errorObj.errors));
+  // inputs border reset on update
+  const elementsToRemoveBorder = document.querySelectorAll('input');
+  elementsToRemoveBorder.forEach((element) => {
+    element.classList.add('border-primary');
+    element.classList.remove('border-red-500');
+  });
   for (const [key, value] of Object.entries(errorObj.errors)) {
-    console.log('key ===', key);
-    console.log('value ===', value.key);
-    console.log('value ===', value.message);
     const inputElement = form.querySelector(`#${value.key}`);
     const elementToAppend = inputElement.parentElement;
     const element = createElement(
@@ -122,7 +125,6 @@ export function displayCard(obj) {
   const price = obj.price;
   const name = obj.name;
   const description = obj.description.slice(0, 53) + '...';
-  console.log('description ===', description);
   const imageUrl = obj.image;
   const mainDiv = createElement('div', [{ class: ['w-300'] }]);
   const imgEl = createElement('img', [

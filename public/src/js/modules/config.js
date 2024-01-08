@@ -5,4 +5,8 @@ export const els = {
     form: document.getElementById('addItem'),
     formOptions: document.getElementById('item_type_id'),
   },
+  register: {
+    form: document.getElementById('registerForm'),
+    formOptions: document.getElementById('role_id'),
+  },
 };

@@ -15,6 +15,9 @@ const validateUsers = async (req, res, next) => {
         'string.pattern.base':
           'Password must contain at least 1 uppercase letter and 1 special character',
       }),
+    repeat_password: Joi.any().equal(Joi.ref('password')).required().messages({
+      'any.only': 'Password and Repeat Password must match',
+    }),
     role_id: Joi.number(),
   });
   try {
