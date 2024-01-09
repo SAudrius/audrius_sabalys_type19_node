@@ -45,12 +45,15 @@ import {
     if (err) {
       console.log('Server error');
     }
-    if (rows.errors) {
+    if (rows?.errors) {
       displayFormErrors(rows, tar);
       // display error
       return;
     }
     console.log(rows);
-    // redirect to shop
+    if (rows?.accessToken) {
+      localStorage.setItem('LOGGED', rows?.accessToken);
+      window.location.href = 'index.html';
+    }
   });
 })();
