@@ -40,7 +40,7 @@ authRoute.post('/register', validateUsers, async (req, res) => {
   if (usersArr.affectedRows !== 1) {
     res.status(500).json('IDK hacking problems Error');
   }
-  // ieskau id  ir roles
+  // ieskau userId ir userRole kad nusiusti JWT su informacija
   const sqlFind = `
     SELECT users.*, users_roles.name AS user_role 
     FROM users 
@@ -53,7 +53,9 @@ authRoute.post('/register', validateUsers, async (req, res) => {
   }
   const userRole = userArr[0].user_role;
   const userId = userArr[0].id;
+  // sukuriu tokena
   const accessToken = createAccessToken(userId, email, userRole);
+  // siunciu tokena
   res.status(200).json({ accessToken: accessToken });
 });
 
@@ -93,9 +95,12 @@ authRoute.post('/login', async (req, res) => {
     return;
   }
   const userRole = userArr[0].user_role;
+  // sukuriu tokena
   const accessToken = createAccessToken(userArr[0].id, email, userRole);
+  // siunciu tokena
   res.status(200).json({ accessToken: accessToken });
 });
+// validuoti tokena ar sutampa is localStorage jei taip grazinu true
 authRoute.post('/token', (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
