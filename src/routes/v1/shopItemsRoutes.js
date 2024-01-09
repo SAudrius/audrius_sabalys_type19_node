@@ -8,8 +8,8 @@ shopItemsRouter.get('/', async (req, res) => {
   const sql = 'SELECT * FROM shop_items WHERE is_deleted = 0';
   const [itemsArr, err] = await dbQueryWithData(sql);
   if (err) {
-    console.log(err);
     res.status(500).json('Server error');
+    return;
   }
   res.json(itemsArr);
 });
@@ -19,8 +19,8 @@ shopItemsRouter.get('/:id', async (req, res) => {
   const sql = 'SELECT * FROM shop_items WHERE is_deleted = 0 && id = ?';
   const [itemsArr, err] = await dbQueryWithData(sql, [itemId]);
   if (err) {
-    console.log(err);
     res.status(500).json('Server error');
+    return;
   }
   res.json(itemsArr);
 });
@@ -39,7 +39,6 @@ shopItemsRouter.post('/', validateShopItems, async (req, res) => {
   const argsArr = [name, price, description, image, itemTypeId];
   const [result, err] = await dbQueryWithData(sql, argsArr);
   if (err) {
-    console.log(err);
     res.status(500).json('Server error');
     return;
   }
@@ -55,12 +54,11 @@ shopItemsRouter.delete('/:id', async (req, res) => {
     'UPDATE shop_items SET is_deleted = 1 WHERE is_deleted = 0 && id = ?  LIMIT 1';
   const [result, err] = await dbQueryWithData(sql, [itemId]);
   if (err) {
-    console.log(err);
     res.status(500).json('Server error');
+    return;
   }
   if (result.affectedRows === 1) {
     res.status(200).json('Item Deleted');
-    console.log('result ===', result);
     return;
   }
   res.status(404).json('Item not found');
