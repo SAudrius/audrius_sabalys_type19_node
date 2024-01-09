@@ -3,9 +3,11 @@ import {
   fetchData,
   createOptionArr,
   displayFormErrors,
+  hasToken,
 } from './modules/helper.js';
 
 (async () => {
+  if (!hasToken()) return;
   const [result, err] = await fetchData(`${baseUrl}/v1/api/users_roles`);
   if (err) {
     console.log('err ===', err);

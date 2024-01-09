@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
-const { dbQueryWithData } = require('../../helper');
+const jwt = require('jsonwebtoken');
+const { dbQueryWithData, createAccessToken } = require('../../helper');
 const { validateUsers } = require('../../middleware');
 
 const authRoute = express.Router();
@@ -65,7 +67,26 @@ authRoute.post('/login', async (req, res) => {
     });
     return;
   }
-  res.status(200).json('access given');
+  const accessToken = createAccessToken(userArr[0].id, email);
+  res.status(200).json({ accessToken: accessToken });
+  // res.status(200).json('access given');
+});
+authRoute.post('/token', (req, res) => {
+  const authHeader = req.headers['authorization'];
+  // jeigu authHeader yra tai split method veiks
+  const token = authHeader && authHeader.split(' ')[1];
+  console.log('token ===', token);
+  if (token === null) {
+    res.status(401).json({ msg: 'do not have a token', status: 'false' });
+    return;
+  }
+  jwt.verify(token, process.env.AUTH_TOKEN_SECRET, (err, data) => {
+    if (err) {
+      res.status(403).json({ msg: 'token is not valid', status: 'false' });
+      return;
+    }
+    res.status(200).json({ msg: 'login in', status: 'true' });
+  });
 });
 
 module.exports = authRoute;

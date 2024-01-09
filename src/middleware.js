@@ -1,4 +1,6 @@
+require('dotenv').config();
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 const { getValidationErrors } = require('./helper');
 
 const validateUsers = async (req, res, next) => {
@@ -52,6 +54,24 @@ const validateShopItems = async (req, res, next) => {
     console.log('messages ===', messages);
     res.status(400).json({ errors: messages });
   }
+};
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  // jeigu authHeader yra
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token === null) {
+    res.status(401).json({ msg: 'do not have a token' });
+    return;
+  }
+  jwt.verify(token, process.env.AUTH_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      res.status(403).json({ msg: 'token is not valid' });
+      return;
+    }
+    req.user = user;
+    next();
+  });
 };
 
 module.exports = {

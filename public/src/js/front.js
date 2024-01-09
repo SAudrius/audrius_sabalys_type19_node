@@ -4,12 +4,14 @@ import {
   createOrderCard,
   createOptionArr,
   findUserOrders,
+  checkForToken,
 } from './modules/helper.js';
 
 (async () => {
+  if ((await checkForToken()) === false) return;
   const [usersArr, error] = await fetchData(`${baseUrl}/v1/api/users`);
   if (error) {
-    console.log(error);
+    console.warn('Server error');
   }
   const userOption = createOptionArr(usersArr);
   // create options for select

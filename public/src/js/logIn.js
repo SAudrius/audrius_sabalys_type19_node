@@ -3,10 +3,11 @@ import {
   displayCustomErrors,
   displayFormErrors,
   fetchData,
+  hasToken,
 } from './modules/helper.js';
 
 (async () => {
-  console.log('log in end');
+  if (!hasToken()) return;
 
   els.logIn.form.addEventListener('submit', async (e) => {
     e.preventDefault(e);
@@ -31,5 +32,7 @@ import {
       displayCustomErrors(rows, els.logIn.errorBox);
       return;
     }
+    localStorage.setItem('LOGGED', rows.accessToken);
+    window.location.href = 'index.html';
   });
 })();

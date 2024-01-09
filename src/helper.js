@@ -1,5 +1,6 @@
 const mysql = require('mysql2/promise');
 const dbConfig = require('./config');
+const jwt = require('jsonwebtoken');
 
 async function dbQueryWithData(sql, argArr = []) {
   let conn;
@@ -22,7 +23,16 @@ function getValidationErrors(err) {
   }));
 }
 
+function createAccessToken(userId, email) {
+  const accessToken = jwt.sign(
+    { userId, email },
+    process.env.AUTH_TOKEN_SECRET
+  );
+  return accessToken;
+}
+
 module.exports = {
   dbQueryWithData,
   getValidationErrors,
+  createAccessToken,
 };

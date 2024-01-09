@@ -67,13 +67,23 @@ function createElement(el, attrArr = null, textContent = null) {
   return element;
 }
 
-export async function fetchData(url, method = 'GET', postObj = null) {
+export async function fetchData(
+  url,
+  method = 'GET',
+  postObj = null,
+  token = null
+) {
   const fetchArgs = {};
   fetchArgs.method = method;
   if (postObj !== null) {
     fetchArgs.body = JSON.stringify(postObj);
     fetchArgs.headers = {
       'Content-Type': 'application/json',
+    };
+  }
+  if (token) {
+    fetchArgs.headers = {
+      Authorization: `Bearer ${token}`,
     };
   }
   try {
@@ -83,6 +93,34 @@ export async function fetchData(url, method = 'GET', postObj = null) {
   } catch (err) {
     return [null, err];
   }
+}
+export async function checkForToken() {
+  const token = localStorage.getItem('LOGGED');
+  const [tokenRes, tokenErr] = await fetchData(
+    `${baseUrl}/v1/api/auth/token`,
+    'POST',
+    null,
+    token
+  );
+  if (tokenErr) {
+    console.warn('Server Error');
+    return false;
+  }
+  // Jeigu neturi tokeno arba neteisingas tokenas
+  if (tokenRes?.status === 'false') {
+    window.location.href = 'login.html';
+    return false;
+  }
+  return true;
+}
+
+export function hasToken() {
+  const token = localStorage.getItem('LOGGED');
+  if (token) {
+    window.location.href = 'index.html';
+    return false;
+  }
+  return true;
 }
 
 export function displayFormErrors(errorObj, form) {

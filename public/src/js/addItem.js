@@ -3,9 +3,11 @@ import {
   fetchData,
   createOptionArr,
   displayFormErrors,
+  checkForToken,
 } from './modules/helper.js';
 
 (async () => {
+  if ((await checkForToken()) === false) return;
   const [result, err] = await fetchData(`${baseUrl}/v1/api/item_types`);
   if (err) {
     console.log('err ===', err);
