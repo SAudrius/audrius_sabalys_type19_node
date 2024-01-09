@@ -18,7 +18,14 @@ authRoute.post('/register', validateUsers, async (req, res) => {
     [email]
   );
   if (countArr[0].count > 0) {
-    res.status(400).json('Email already exists');
+    res.status(400).json({
+      errors: [
+        {
+          message: 'Email Already Exist',
+          key: 'email',
+        },
+      ],
+    });
     return;
   }
   // eslint-disable-next-line operator-linebreak

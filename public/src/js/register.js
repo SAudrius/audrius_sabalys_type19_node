@@ -37,8 +37,6 @@ import {
       repeat_password: repeatPassword,
       role_id: role,
     };
-    console.log('postObj ===', postObj);
-
     const [rows, err] = await fetchData(
       `${baseUrl}/v1/api/auth/register`,
       'post',
@@ -48,8 +46,6 @@ import {
       console.log('Server error');
     }
     if (rows.errors) {
-      console.log('errors needs to be displayed');
-      console.log(rows);
       displayFormErrors(rows, tar);
       // display error
       return;
