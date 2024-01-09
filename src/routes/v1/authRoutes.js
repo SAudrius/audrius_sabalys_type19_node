@@ -34,13 +34,13 @@ authRoute.post('/register', validateUsers, async (req, res) => {
   const argArr = [name, email, password, roleId];
   const [usersArr, err] = await dbQueryWithData(sql, argArr);
   if (err || emailCountError) {
-    console.log('err ===', err);
     res.status(500).json('Server Error');
     return;
   }
   if (usersArr.affectedRows !== 1) {
-    res.status(500).json('idk hacking problems Error');
+    res.status(500).json('IDK hacking problems Error');
   }
+  // ieskau id  ir roles
   const sqlFind = `
     SELECT users.*, users_roles.name AS user_role 
     FROM users 
@@ -52,7 +52,8 @@ authRoute.post('/register', validateUsers, async (req, res) => {
     res.status(500).json('Server Error');
   }
   const userRole = userArr[0].user_role;
-  const accessToken = createAccessToken(userArr[0].id, email, userRole);
+  const userId = userArr[0].id;
+  const accessToken = createAccessToken(userId, email, userRole);
   res.status(200).json({ accessToken: accessToken });
 });
 
