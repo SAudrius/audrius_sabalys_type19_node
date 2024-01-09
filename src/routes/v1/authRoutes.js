@@ -49,7 +49,12 @@ authRoute.post('/login', async (req, res) => {
     });
     return;
   }
-  const sql = 'SELECT * from users WHERE email = ? LIMIT 1';
+  const sql = `
+    SELECT users.*, users_roles.name AS user_role 
+    FROM users 
+    JOIN users_roles ON users_roles.id = users.role_id
+    WHERE email = ? LIMIT 1
+  `;
   const [userArr, err] = await dbQueryWithData(sql, [email]);
   if (err) {
     res.status(500).json('Server Error');
@@ -66,7 +71,8 @@ authRoute.post('/login', async (req, res) => {
     });
     return;
   }
-  const accessToken = createAccessToken(userArr[0].id, email);
+  const userRole = userArr[0].user_role;
+  const accessToken = createAccessToken(userArr[0].id, email, userRole);
   res.status(200).json({ accessToken: accessToken });
 });
 authRoute.post('/token', (req, res) => {
@@ -82,7 +88,10 @@ authRoute.post('/token', (req, res) => {
       return;
     }
     const userId = data.user_id;
-    res.status(200).json({ user_id: userId, status: 'true' });
+    const userRole = data.user_role;
+    res
+      .status(200)
+      .json({ user_id: userId, user_role: userRole, status: 'true' });
   });
 });
 

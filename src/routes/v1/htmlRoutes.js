@@ -7,7 +7,6 @@ const htmlRouter = express.Router();
 htmlRouter.get('/nav', async (req, res) => {
   res.setHeader('Content-Type', 'text/html');
   const htmlContent = await fs.readFile('src/components/header.html', 'utf-8');
-  console.log('htmlContent ===', htmlContent);
   res.send(htmlContent);
 });
 htmlRouter.get('/nav-logged', async (req, res) => {
@@ -16,7 +15,14 @@ htmlRouter.get('/nav-logged', async (req, res) => {
     'src/components/header-logged.html',
     'utf-8'
   );
-  console.log('htmlContent ===', htmlContent);
+  res.send(htmlContent);
+});
+htmlRouter.get('/nav-logged-admin', async (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  const htmlContent = await fs.readFile(
+    'src/components/header-logged-admin.html',
+    'utf-8'
+  );
   res.send(htmlContent);
 });
 
@@ -31,7 +37,14 @@ htmlRouter.get('/footer-logged', async (req, res) => {
     'src/components/footer-logged.html',
     'utf-8'
   );
-  console.log('htmlContent ===', htmlContent);
+  res.send(htmlContent);
+});
+htmlRouter.get('/footer-logged-admin', async (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  const htmlContent = await fs.readFile(
+    'src/components/footer-logged-admin.html',
+    'utf-8'
+  );
   res.send(htmlContent);
 });
 

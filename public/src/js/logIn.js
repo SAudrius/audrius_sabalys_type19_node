@@ -39,6 +39,6 @@ import {
       return;
     }
     localStorage.setItem('LOGGED', rows.accessToken);
-    window.location.href = 'index.html';
+    // window.location.href = 'index.html';
   });
 })();

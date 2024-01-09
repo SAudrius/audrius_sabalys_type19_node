@@ -23,9 +23,9 @@ function getValidationErrors(err) {
   }));
 }
 
-function createAccessToken(userId, email) {
+function createAccessToken(userId, email, userRole) {
   const accessToken = jwt.sign(
-    { user_id: userId, email },
+    { user_id: userId, user_role: userRole, email },
     process.env.AUTH_TOKEN_SECRET
   );
   return accessToken;

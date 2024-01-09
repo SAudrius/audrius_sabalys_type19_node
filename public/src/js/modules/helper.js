@@ -103,6 +103,7 @@ export async function fetchData(
 }
 
 export async function fetchNavigation(logged = true) {
+  const role = await getRoleFieldFromServerToken('user_role');
   if (!logged) {
     const [header, headerErr] = await fetchData(
       `${baseUrl}/v1/api/html/nav`,
@@ -118,6 +119,34 @@ export async function fetchNavigation(logged = true) {
     els.navigation.header.innerHTML = header;
     const [footer, footerErr] = await fetchData(
       `${baseUrl}/v1/api/html/footer`,
+      'GET',
+      null,
+      null,
+      'html'
+    );
+    if (footerErr) {
+      console.warn('server error');
+      return;
+    }
+    els.navigation.footer.innerHTML = footer;
+    return;
+  }
+  if (role === 'admin') {
+    console.log('ADMIN');
+    const [header, headerErr] = await fetchData(
+      `${baseUrl}/v1/api/html/nav-logged-admin`,
+      'GET',
+      null,
+      null,
+      'html'
+    );
+    if (headerErr) {
+      console.warn('server error');
+      return;
+    }
+    els.navigation.header.innerHTML = header;
+    const [footer, footerErr] = await fetchData(
+      `${baseUrl}/v1/api/html/footer-logged-admin`,
       'GET',
       null,
       null,
@@ -210,6 +239,22 @@ export async function getIdFromServer() {
   }
   console.log('token.user_id ===', tokenRes.user_id);
   return tokenRes.user_id;
+}
+export async function getRoleFieldFromServerToken(field) {
+  const token = localStorage.getItem('LOGGED');
+  const [tokenRes, tokenErr] = await fetchData(
+    `${baseUrl}/v1/api/auth/token`,
+    'POST',
+    null,
+    token
+  );
+  if (tokenErr) {
+    console.log('tokenErr ===', tokenErr);
+    console.warn('Server Error');
+    return;
+  }
+  console.log('tokenRes ===', tokenRes);
+  return tokenRes[field];
 }
 
 export function displayFormErrors(errorObj, form) {
@@ -403,7 +448,7 @@ export async function displayCard(obj) {
 export function createAddToCart(element, itemId, price) {
   element.addEventListener('click', async () => {
     console.log('click');
-    const userId = await getIdFromServer();
+    const userId = await getRoleFieldFromServerToken('user_id');
     const postObj = {
       user_id: userId,
       shop_item_id: itemId,
