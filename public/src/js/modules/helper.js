@@ -2,6 +2,7 @@ import { baseUrl, els } from './config.js';
 
 export function createHamburgerClick(headerElement, hamElement) {
   hamElement.addEventListener('click', () => {
+    console.log('click');
     const hamChildElements = hamElement.children;
     const nav = headerElement.querySelector('#nav');
     const ul = headerElement.querySelector('#ul');
@@ -88,6 +89,7 @@ export async function fetchData(
     };
   }
   try {
+    console.log('url ===', url);
     const res = await fetch(url, fetchArgs);
     let data = '';
     if (type === 'json') {
@@ -102,89 +104,75 @@ export async function fetchData(
   }
 }
 
-export async function fetchNavigation(logged = true) {
+export async function fetchNavigation(logged = false) {
   const role = await getRoleFieldFromServerToken('user_role');
-  if (!logged) {
-    const [header, headerErr] = await fetchData(
+  let header;
+  let headerErr;
+  let footer;
+  let footerErr;
+  // jeigu neprisijunges
+  if (logged === false) {
+    [header, headerErr] = await fetchData(
       `${baseUrl}/v1/api/html/nav`,
       'GET',
       null,
       null,
       'html'
     );
-    if (headerErr) {
-      console.warn('server error');
-      return;
-    }
-    els.navigation.header.innerHTML = header;
-    const [footer, footerErr] = await fetchData(
+    [footer, footerErr] = await fetchData(
       `${baseUrl}/v1/api/html/footer`,
       'GET',
       null,
       null,
       'html'
     );
-    if (footerErr) {
-      console.warn('server error');
-      return;
-    }
-    els.navigation.footer.innerHTML = footer;
-    return;
   }
+  // jeigu adminas
   if (role === 'admin') {
-    console.log('ADMIN');
-    const [header, headerErr] = await fetchData(
+    [header, headerErr] = await fetchData(
       `${baseUrl}/v1/api/html/nav-logged-admin`,
       'GET',
       null,
       null,
       'html'
     );
-    if (headerErr) {
-      console.warn('server error');
-      return;
-    }
-    els.navigation.header.innerHTML = header;
-    const [footer, footerErr] = await fetchData(
+    [footer, footerErr] = await fetchData(
       `${baseUrl}/v1/api/html/footer-logged-admin`,
       'GET',
       null,
       null,
       'html'
     );
-    if (footerErr) {
-      console.warn('server error');
-      return;
-    }
-    els.navigation.footer.innerHTML = footer;
-    return;
   }
-  const [header, headerErr] = await fetchData(
-    `${baseUrl}/v1/api/html/nav-logged`,
-    'GET',
-    null,
-    null,
-    'html'
-  );
-  if (headerErr) {
+  // jeigu ne admins bet prisijunges
+  if (role !== 'admin' && role !== false) {
+    [header, headerErr] = await fetchData(
+      `${baseUrl}/v1/api/html/nav-logged`,
+      'GET',
+      null,
+      null,
+      'html'
+    );
+    [footer, footerErr] = await fetchData(
+      `${baseUrl}/v1/api/html/footer-logged`,
+      'GET',
+      null,
+      null,
+      'html'
+    );
+  }
+  // navigation for mobile hamburger
+  if (footerErr || headerErr) {
     console.warn('server error');
     return;
   }
   els.navigation.header.innerHTML = header;
-  const [footer, footerErr] = await fetchData(
-    `${baseUrl}/v1/api/html/footer-logged`,
-    'GET',
-    null,
-    null,
-    'html'
-  );
-  if (footerErr) {
-    console.warn('server error');
-    return;
-  }
+  els.navigation.footer.innerHTML = footer;
   const logoutNodeArr = document.querySelectorAll('.logout');
   logoutNodeArr.forEach((element) => eventLogout(element));
-  els.navigation.footer.innerHTML = footer;
+  const headerEl = document.querySelector('header');
+  const hamburger = header.querySelector('#hamburger');
+  createHamburgerClick(headerEl, hamburger);
 }
 
 export async function checkForToken() {
