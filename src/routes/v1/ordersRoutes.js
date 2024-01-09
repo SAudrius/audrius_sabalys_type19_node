@@ -12,6 +12,7 @@ ordersRoute.get('/', async (req, res) => {
   const [ordersArr, err] = await dbQueryWithData(sql);
   if (err) {
     res.status(500).json('Server error');
+    return;
   }
   res.json(ordersArr);
 });
@@ -30,6 +31,7 @@ ordersRoute.post('/', async (req, res) => {
   const [ordersArr, err] = await dbQueryWithData(sql, argsArr);
   if (err) {
     res.status(500).json('Server error');
+    return;
   }
   if (ordersArr.affectedRows === 1) {
     res.status(200).json('Order Created');
@@ -42,6 +44,7 @@ ordersRoute.get('/:id', async (req, res) => {
   const [orderArr, err] = await dbQueryWithData(sql, [orderId]);
   if (err) {
     res.status(500).json('Server error');
+    return;
   }
   res.status(200).json(orderArr[0]);
 });
@@ -57,6 +60,7 @@ ordersRoute.get('/user/:id', async (req, res) => {
   const [ordersArr, err] = await dbQueryWithData(sql, [userId]);
   if (err) {
     res.status(500).json('Server error');
+    return;
   }
   res.status(200).json(ordersArr);
 });

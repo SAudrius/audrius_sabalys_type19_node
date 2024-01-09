@@ -8,6 +8,7 @@ itemsTypes.get('/', async (req, res) => {
   const [itemTypesArr, err] = await dbQueryWithData(sql);
   if (err) {
     res.status(500).json('Server error');
+    return;
   }
   res.json(itemTypesArr);
 });

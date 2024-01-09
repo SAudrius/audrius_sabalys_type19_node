@@ -8,6 +8,7 @@ usersRolesRouter.get('/', async (req, res) => {
   const [rolesArr, err] = await dbQueryWithData(sql);
   if (err) {
     res.status(500).json('Server error');
+    return;
   }
   res.json(rolesArr);
 });
