@@ -336,7 +336,7 @@ export function createOrderCard(obj) {
   const orderPrice = createElement(
     'p',
     [{ class: ['mt-1', 'text-lg', 'font-medium'] }],
-    obj.total_price
+    obj.total_price + '$'
   );
   const orderDescription = createElement(
     'p',
