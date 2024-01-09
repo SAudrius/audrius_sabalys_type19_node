@@ -2,7 +2,6 @@ import { baseUrl, els } from './config.js';
 
 export function createHamburgerClick(headerElement, hamElement) {
   hamElement.addEventListener('click', () => {
-    console.log('click');
     const hamChildElements = hamElement.children;
     const nav = headerElement.querySelector('#nav');
     const ul = headerElement.querySelector('#ul');
@@ -111,7 +110,6 @@ export async function fetchNavigation(logged = false) {
   let footerErr;
   // jeigu neprisijunges
   if (logged === false) {
-    console.log('neprisijunges');
     [header, headerErr] = await fetchData(
       `${baseUrl}/v1/api/html/nav`,
       'GET',
@@ -163,7 +161,7 @@ export async function fetchNavigation(logged = false) {
   }
   // navigation for mobile hamburger
   if (footerErr || headerErr) {
-    console.warn('server error');
+    console.warn('Server error');
     return;
   }
   els.navigation.header.innerHTML = header;
@@ -293,7 +291,6 @@ export async function findUserOrders(e) {
   const [userOrderArr, err] = await fetchData(
     `${baseUrl}/v1/api/orders/user/${userId}`
   );
-  console.log('userOrderArr ===', userOrderArr);
   const orderCardsArr = userOrderArr.map((orderObj) =>
     createOrderCard(orderObj)
   );
@@ -432,7 +429,6 @@ export async function displayCard(obj) {
 
 export function createAddToCart(element, itemId, price) {
   element.addEventListener('click', async () => {
-    console.log('click');
     const userId = await getRoleFieldFromServerToken('user_id');
     const postObj = {
       user_id: userId,
@@ -446,7 +442,8 @@ export function createAddToCart(element, itemId, price) {
       postObj
     );
     if (err) {
-      console.warn('server error');
+      console.warn('Server error');
+      return;
     }
     // order created ...
   });
@@ -460,7 +457,8 @@ export function createCardDelete(element, itemId) {
       'DELETE'
     );
     if (err) {
-      console.warn('server error');
+      console.warn('Server error');
+      return;
     }
     greatGrandParent.remove();
   });
