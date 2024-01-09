@@ -55,7 +55,7 @@ import {
       // display error
       return;
     }
-    console.log(rows);
+    window.location.href = 'shop.html';
     // redirect to shop
   });
 })();
