@@ -4,7 +4,11 @@ const { dbQueryWithData } = require('../../helper');
 const ordersRoute = express.Router();
 
 ordersRoute.get('/', async (req, res) => {
-  const sql = 'SELECT * FROM orders';
+  const sql = `
+    SELECT orders.* , shop_items.name, shop_items.description
+    FROM orders
+    JOIN shop_items ON shop_items.id = orders.shop_item_id
+  `;
   const [ordersArr, err] = await dbQueryWithData(sql);
   if (err) {
     res.status(500).json('Server error');
@@ -45,7 +49,7 @@ ordersRoute.get('/:id', async (req, res) => {
 ordersRoute.get('/user/:id', async (req, res) => {
   const userId = +req.params.id;
   const sql = `
-  SELECT orders.id AS order_id, orders.user_id, orders.shop_item_id, orders.quantity, orders.total_price, users.name AS user_name, shop_items.name AS item_name
+  SELECT orders.id, orders.user_id, orders.shop_item_id, orders.quantity, orders.total_price, users.name AS user_name, shop_items.name AS item_name, shop_items.description
   FROM orders
   JOIN users ON orders.user_id = users.id
   JOIN shop_items ON orders.shop_item_id = shop_items.id

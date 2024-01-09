@@ -1,4 +1,4 @@
-import { els } from './config.js';
+import { baseUrl, els } from './config.js';
 
 export function createHamburgerClick(headerElement, hamElement) {
   hamElement.addEventListener('click', () => {
@@ -48,8 +48,10 @@ export function createHamburgerClick(headerElement, hamElement) {
   });
 }
 
-function createElement(el, attrArr, textContent = null) {
+function createElement(el, attrArr = null, textContent = null) {
   const element = document.createElement(el);
+  element.textContent = textContent;
+  if (!attrArr) return element;
   attrArr.forEach((attrObj) => {
     for (const key in attrObj) {
       attrObj[key].forEach((value) => {
@@ -62,7 +64,6 @@ function createElement(el, attrArr, textContent = null) {
       });
     }
   });
-  element.textContent = textContent;
   return element;
 }
 
@@ -130,6 +131,71 @@ export function createOptionArr(arr) {
     el.textContent = obj.name;
     return el;
   });
+}
+
+export async function findUserOrders(e) {
+  els.index.cards.textContent = '';
+  const userId = e.target.value;
+  const [userOrderArr, err] = await fetchData(
+    `${baseUrl}/v1/api/orders/user/${userId}`
+  );
+  console.log('userOrderArr ===', userOrderArr);
+  const orderCardsArr = userOrderArr.map((orderObj) =>
+    createOrderCard(orderObj)
+  );
+  els.index.cards.append(...orderCardsArr);
+}
+
+export function createOrderCard(obj) {
+  console.log('arr ===', obj);
+  const description = obj.description.slice(0, 53) + '...';
+  const totalPrice = (obj.quantity * obj.total_price).toFixed(2) + '$';
+  const mainDiv = createElement('div', [{ class: ['w-300'] }]);
+  const colorDiv = createElement('div', [
+    { class: ['p-4', 'bg-secondary', 'rounded-xl'] },
+  ]);
+  const orderId = createElement('p', null, 'Orders ID:');
+  const orderIdSpan = createElement('span', null, obj.id);
+  const orderItemName = createElement(
+    'h2',
+    [{ class: ['text-2xl', 'font-medium'] }],
+    obj.name
+  );
+  const orderPrice = createElement(
+    'p',
+    [{ class: ['mt-1', 'text-lg', 'font-medium'] }],
+    obj.total_price
+  );
+  const orderDescription = createElement(
+    'p',
+    [{ class: ['mt-1'] }],
+    description
+  );
+  const orderQuantity = createElement(
+    'p',
+    [{ class: ['mt-1', 'font-medium'] }],
+    'Quantity: '
+  );
+  const orderQuantitySpan = createElement('span', null, obj.quantity);
+  const orderTotalPrice = createElement(
+    'span',
+    [{ class: ['mt-1', 'text-xl', 'font-medium'] }],
+    'Total price: '
+  );
+  const orderTotalPriceSpan = createElement('span', null, totalPrice);
+  orderId.append(orderIdSpan);
+  orderQuantity.append(orderQuantitySpan);
+  orderTotalPrice.append(orderTotalPriceSpan);
+  colorDiv.append(
+    orderId,
+    orderItemName,
+    orderPrice,
+    orderDescription,
+    orderQuantity,
+    orderTotalPrice
+  );
+  mainDiv.append(colorDiv);
+  return mainDiv;
 }
 
 export function displayCard(obj) {

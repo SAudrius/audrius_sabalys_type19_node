@@ -13,4 +13,8 @@ export const els = {
     form: document.getElementById('loginForm'),
     errorBox: document.getElementById('errorBox'),
   },
+  index: {
+    cards: document.getElementById('cards'),
+    select: document.getElementById('users'),
+  },
 };
