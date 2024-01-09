@@ -20,7 +20,7 @@ const validateUsers = async (req, res, next) => {
     repeat_password: Joi.any().equal(Joi.ref('password')).required().messages({
       'any.only': 'Password and Repeat Password must match',
     }),
-    role_id: Joi.number(),
+    role_id: Joi.number().required(),
   });
   try {
     // eslint-disable-next-line no-unused-vars
@@ -30,6 +30,7 @@ const validateUsers = async (req, res, next) => {
     next();
   } catch (err) {
     const messages = getValidationErrors(err);
+
     console.log('messages ===', messages);
     res.status(400).json({ errors: messages });
   }
