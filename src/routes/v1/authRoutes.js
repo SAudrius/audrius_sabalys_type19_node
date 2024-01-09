@@ -56,7 +56,6 @@ authRoute.post('/login', async (req, res) => {
     return;
   }
   if (userArr[0]?.password !== password || userArr.length <= 0) {
-    // console.log('wrong password');
     res.json({
       errors: [
         {
@@ -69,13 +68,10 @@ authRoute.post('/login', async (req, res) => {
   }
   const accessToken = createAccessToken(userArr[0].id, email);
   res.status(200).json({ accessToken: accessToken });
-  // res.status(200).json('access given');
 });
 authRoute.post('/token', (req, res) => {
   const authHeader = req.headers['authorization'];
-  // jeigu authHeader yra tai split method veiks
   const token = authHeader && authHeader.split(' ')[1];
-  console.log('token ===', token);
   if (token === null) {
     res.status(401).json({ msg: 'do not have a token', status: 'false' });
     return;
