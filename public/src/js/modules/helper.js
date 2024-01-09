@@ -111,6 +111,18 @@ export function displayFormErrors(errorObj, form) {
   }
 }
 
+export function displayCustomErrors(errorObj, elementToAppend) {
+  elementToAppend.innerHTML = '';
+  for (const [key, value] of Object.entries(errorObj.errors)) {
+    const element = createElement(
+      'p',
+      [{ class: ['mt-1', 'text-red-500', 'error-field-active'] }],
+      value.message
+    );
+    elementToAppend.append(element);
+  }
+}
+
 export function createOptionArr(arr) {
   return arr.map((obj) => {
     const el = document.createElement('option');

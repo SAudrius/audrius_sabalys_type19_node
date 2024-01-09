@@ -9,4 +9,8 @@ export const els = {
     form: document.getElementById('registerForm'),
     formOptions: document.getElementById('role_id'),
   },
+  logIn: {
+    form: document.getElementById('loginForm'),
+    errorBox: document.getElementById('errorBox'),
+  },
 };

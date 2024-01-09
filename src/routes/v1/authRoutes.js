@@ -36,14 +36,33 @@ authRoute.post('/register', validateUsers, async (req, res) => {
 
 authRoute.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    res.json({
+      errors: [
+        {
+          message: 'Email field or Password field can not be empty',
+          key: 'wrongDiv',
+        },
+      ],
+    });
+    return;
+  }
   const sql = 'SELECT * from users WHERE email = ? LIMIT 1';
   const [userArr, err] = await dbQueryWithData(sql, [email]);
   if (err) {
     res.status(500).json('Server Error');
     return;
   }
-  if (userArr[0].password !== password) {
-    res.json('password incorrect');
+  if (userArr[0]?.password !== password || userArr.length <= 0) {
+    // console.log('wrong password');
+    res.json({
+      errors: [
+        {
+          message: 'Email or Password is incorrect',
+          key: 'wrongDiv',
+        },
+      ],
+    });
     return;
   }
   res.status(200).json('access given');
