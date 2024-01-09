@@ -50,6 +50,7 @@ authRoute.post('/register', validateUsers, async (req, res) => {
   const [userArr, getError] = await dbQueryWithData(sqlFind, [email]);
   if (getError) {
     res.status(500).json('Server Error');
+    return;
   }
   const userRole = userArr[0].user_role;
   const userId = userArr[0].id;
