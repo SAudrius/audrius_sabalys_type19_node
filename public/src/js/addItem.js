@@ -16,7 +16,6 @@ import {
   fetchNavigation(isLogged);
   const [result, err] = await fetchData(`${baseUrl}/v1/api/item_types`);
   if (err) {
-    console.log('err ===', err);
     console.log('server error');
   }
   const optionArray = createOptionArr(result);
@@ -37,8 +36,6 @@ import {
       image,
       item_type_id: itemType,
     };
-    console.log('postObj ===', postObj);
-
     const [rows, err] = await fetchData(
       `${baseUrl}/v1/api/shop_items`,
       'post',
@@ -46,16 +43,12 @@ import {
     );
     if (err) {
       console.log('Server error');
+      return;
     }
     if (rows.errors) {
-      console.log('errors needs to be displayed');
-      console.log(rows);
       displayFormErrors(rows, tar);
-
-      // display error
       return;
     }
     window.location.href = 'shop.html';
-    // redirect to shop
   });
 })();

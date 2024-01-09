@@ -16,12 +16,12 @@ import {
   fetchNavigation(isLogged);
   const [result, err] = await fetchData(`${baseUrl}/v1/api/users_roles`);
   if (err) {
-    console.log('err ===', err);
-    console.log('display error');
+    console.warn('Server error');
+    return;
   }
   const optionArray = createOptionArr(result);
   els.register.formOptions.append(...optionArray);
-  // create Event Listener
+  // handle form on submit
   els.register.form.addEventListener('submit', async (e) => {
     e.preventDefault(e);
     const tar = e.target;
@@ -43,14 +43,13 @@ import {
       postObj
     );
     if (err) {
-      console.log('Server error');
+      console.warn('Server error');
+      return;
     }
     if (rows?.errors) {
       displayFormErrors(rows, tar);
-      // display error
       return;
     }
-    console.log(rows);
     if (rows?.accessToken) {
       localStorage.setItem('LOGGED', rows?.accessToken);
       window.location.href = 'index.html';

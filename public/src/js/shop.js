@@ -13,8 +13,6 @@ import {
     return;
   }
   fetchNavigation(isLogged);
-  if ((await checkForToken()) === false) return;
-  // const token = localStorage.getItem('LOGGED');
   const [result, err] = await fetchData(`${baseUrl}/v1/api/shop_items`);
   if (err) {
     console.warn('server Error');

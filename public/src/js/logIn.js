@@ -24,21 +24,22 @@ import {
       email,
       password,
     };
-
     const [rows, err] = await fetchData(
       `${baseUrl}/v1/api/auth/login`,
       'post',
       postObj
     );
     if (err) {
-      console.log('Server error');
+      console.warn('Server error');
+      return;
     }
     if (rows?.errors) {
-      //   console.log(rows);
       displayCustomErrors(rows, els.logIn.errorBox);
       return;
     }
-    localStorage.setItem('LOGGED', rows.accessToken);
-    window.location.href = 'index.html';
+    if (rows?.accessToken) {
+      localStorage.setItem('LOGGED', rows.accessToken);
+      window.location.href = 'index.html';
+    }
   });
 })();
