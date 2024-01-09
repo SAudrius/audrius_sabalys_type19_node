@@ -6,6 +6,7 @@ import {
   findUserOrders,
   checkForToken,
   fetchNavigation,
+  getRoleFieldFromServerToken,
 } from './modules/helper.js';
 
 (async () => {
@@ -15,16 +16,21 @@ import {
     return;
   }
   fetchNavigation(isLogged);
+  const role = await getRoleFieldFromServerToken('user_role');
   const [usersArr, error] = await fetchData(`${baseUrl}/v1/api/users`);
   if (error) {
     console.warn('Server error');
   }
-  const userOption = createOptionArr(usersArr);
-  // create options for select
-  els.index.select.append(...userOption);
-  // create on change eventlistener and look for use data
-  console.log('els.index.select ===', els.index.select);
-  els.index.select.addEventListener('change', findUserOrders);
+  if (role === 'admin') {
+    els.index.select.parentElement.classList.remove('hidden');
+    const userOption = createOptionArr(usersArr);
+    // create options for select
+    els.index.select.append(...userOption);
+    // create on change eventlistener and look for use data
+    console.log('els.index.select ===', els.index.select);
+    els.index.select.addEventListener('change', findUserOrders);
+  }
+
   // fetch full order List
   const [ordersArr, err] = await fetchData(`${baseUrl}/v1/api/orders`);
   if (err) {
