@@ -371,6 +371,7 @@ export function createOrderCard(obj) {
 }
 
 export async function displayCard(obj) {
+  const role = await getRoleFieldFromServerToken('user_role');
   const id = obj.id;
   const price = obj.price;
   const name = obj.name;
@@ -401,24 +402,6 @@ export async function displayCard(obj) {
   const buttonDiv = createElement('div', [
     { class: ['flex', 'justify-between', 'mt-3'] },
   ]);
-  const buttonDel = createElement(
-    'button',
-    [
-      {
-        class: [
-          'col-span-1',
-          'px-5',
-          'py-3',
-          'text-white',
-          'bg-red-400',
-          'rounded-xl',
-          'cursor-pointer',
-        ],
-      },
-      { type: ['button'] },
-    ],
-    'Delete'
-  );
   const buttonAddToCart = createElement(
     'button',
     [
@@ -437,9 +420,31 @@ export async function displayCard(obj) {
     ],
     'Add to Cart'
   );
-  createCardDelete(buttonDel, id);
+  console.log('role ===', role);
+  if (role === 'admin') {
+    const buttonDel = createElement(
+      'button',
+      [
+        {
+          class: [
+            'col-span-1',
+            'px-5',
+            'py-3',
+            'text-white',
+            'bg-red-400',
+            'rounded-xl',
+            'cursor-pointer',
+          ],
+        },
+        { type: ['button'] },
+      ],
+      'Delete'
+    );
+    createCardDelete(buttonDel, id);
+    buttonDiv.append(buttonDel);
+  }
   createAddToCart(buttonAddToCart, id, price);
-  buttonDiv.append(buttonDel, buttonAddToCart);
+  buttonDiv.append(buttonAddToCart);
   secondDiv.append(nameEl, priceEl, descriptionEl, buttonDiv);
   mainDiv.append(imgEl, secondDiv);
   els.shop.cards.append(mainDiv);
