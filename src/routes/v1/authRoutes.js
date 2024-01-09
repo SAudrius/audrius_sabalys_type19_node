@@ -101,6 +101,7 @@ authRoute.post('/login', async (req, res) => {
   // siunciu tokena
   res.status(200).json({ accessToken: accessToken });
 });
+
 // validuoti tokena ar sutampa is localStorage jei taip grazinu true
 authRoute.post('/token', (req, res) => {
   const authHeader = req.headers['authorization'];

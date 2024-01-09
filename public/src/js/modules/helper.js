@@ -89,7 +89,6 @@ export async function fetchData(
     };
   }
   try {
-    console.log('url ===', url);
     const res = await fetch(url, fetchArgs);
     let data = '';
     if (type === 'json') {
@@ -302,7 +301,6 @@ export async function findUserOrders(e) {
 }
 
 export function createOrderCard(obj) {
-  console.log('arr ===', obj);
   const description = obj.description.slice(0, 53) + '...';
   const totalPrice = (obj.quantity * obj.total_price).toFixed(2) + '$';
   const mainDiv = createElement('div', [{ class: ['w-300'] }]);
