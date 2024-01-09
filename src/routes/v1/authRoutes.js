@@ -38,9 +38,22 @@ authRoute.post('/register', validateUsers, async (req, res) => {
     res.status(500).json('Server Error');
     return;
   }
-  if (usersArr.affectedRows === 1) {
-    res.status(200).json('User created');
+  if (usersArr.affectedRows !== 1) {
+    res.status(500).json('idk hacking problems Error');
   }
+  const sqlFind = `
+    SELECT users.*, users_roles.name AS user_role 
+    FROM users 
+    JOIN users_roles ON users_roles.id = users.role_id
+    WHERE email = ? LIMIT 1
+  `;
+  const [userArr, getError] = await dbQueryWithData(sqlFind, [email]);
+  if (getError) {
+    res.status(500).json('Server Error');
+  }
+  const userRole = userArr[0].user_role;
+  const accessToken = createAccessToken(userArr[0].id, email, userRole);
+  res.status(200).json({ accessToken: accessToken });
 });
 
 authRoute.post('/login', async (req, res) => {
