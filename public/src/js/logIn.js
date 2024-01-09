@@ -1,13 +1,16 @@
 import { baseUrl, els } from './modules/config.js';
 import {
+  checkForToken,
   displayCustomErrors,
   displayFormErrors,
   fetchData,
-  hasToken,
+  fetchNavigation,
 } from './modules/helper.js';
 
 (async () => {
-  if (!hasToken()) return;
+  const isLogged = await checkForToken();
+  if (isLogged === true) return;
+  fetchNavigation(isLogged);
 
   els.logIn.form.addEventListener('submit', async (e) => {
     e.preventDefault(e);

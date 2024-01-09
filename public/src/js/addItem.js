@@ -4,14 +4,20 @@ import {
   createOptionArr,
   displayFormErrors,
   checkForToken,
+  fetchNavigation,
 } from './modules/helper.js';
 
 (async () => {
-  if ((await checkForToken()) === false) return;
+  const isLogged = await checkForToken();
+  if (isLogged === false) {
+    window.location.href = 'login.html';
+    return;
+  }
+  fetchNavigation(isLogged);
   const [result, err] = await fetchData(`${baseUrl}/v1/api/item_types`);
   if (err) {
     console.log('err ===', err);
-    console.log('display error');
+    console.log('server error');
   }
   const optionArray = createOptionArr(result);
   els.addItems.formOptions.append(...optionArray);

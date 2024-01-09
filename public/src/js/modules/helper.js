@@ -71,11 +71,12 @@ export async function fetchData(
   url,
   method = 'GET',
   postObj = null,
-  token = null
+  token = null,
+  type = 'json'
 ) {
   const fetchArgs = {};
   fetchArgs.method = method;
-  if (postObj !== null) {
+  if (postObj !== null && type === 'json') {
     fetchArgs.body = JSON.stringify(postObj);
     fetchArgs.headers = {
       'Content-Type': 'application/json',
@@ -88,12 +89,75 @@ export async function fetchData(
   }
   try {
     const res = await fetch(url, fetchArgs);
-    const data = await res.json();
+    let data = '';
+    if (type === 'json') {
+      data = await res.json();
+    }
+    if (type === 'html') {
+      data = await res.text();
+    }
     return [data, null];
   } catch (err) {
     return [null, err];
   }
 }
+
+export async function fetchNavigation(logged = true) {
+  if (!logged) {
+    const [header, headerErr] = await fetchData(
+      `${baseUrl}/v1/api/html/nav`,
+      'GET',
+      null,
+      null,
+      'html'
+    );
+    if (headerErr) {
+      console.warn('server error');
+      return;
+    }
+    els.navigation.header.innerHTML = header;
+    const [footer, footerErr] = await fetchData(
+      `${baseUrl}/v1/api/html/footer`,
+      'GET',
+      null,
+      null,
+      'html'
+    );
+    if (footerErr) {
+      console.warn('server error');
+      return;
+    }
+    els.navigation.footer.innerHTML = footer;
+    return;
+  }
+  const [header, headerErr] = await fetchData(
+    `${baseUrl}/v1/api/html/nav-logged`,
+    'GET',
+    null,
+    null,
+    'html'
+  );
+  if (headerErr) {
+    console.warn('server error');
+    return;
+  }
+  els.navigation.header.innerHTML = header;
+  const [footer, footerErr] = await fetchData(
+    `${baseUrl}/v1/api/html/footer-logged`,
+    'GET',
+    null,
+    null,
+    'html'
+  );
+  if (footerErr) {
+    console.warn('server error');
+    return;
+  }
+  const logoutNodeArr = document.querySelectorAll('.logout');
+  logoutNodeArr.forEach((element) => eventLogout(element));
+  els.navigation.footer.innerHTML = footer;
+}
+
 export async function checkForToken() {
   const token = localStorage.getItem('LOGGED');
   const [tokenRes, tokenErr] = await fetchData(
@@ -103,12 +167,12 @@ export async function checkForToken() {
     token
   );
   if (tokenErr) {
+    console.log('tokenErr ===', tokenErr);
     console.warn('Server Error');
     return false;
   }
   // Jeigu neturi tokeno arba neteisingas tokenas
   if (tokenRes?.status === 'false') {
-    window.location.href = 'login.html';
     return false;
   }
   return true;
@@ -121,6 +185,15 @@ export function hasToken() {
     return false;
   }
   return true;
+}
+
+export function eventLogout(el) {
+  console.log('el ===', el);
+  el.addEventListener('click', () => {
+    console.log('click');
+    localStorage.removeItem('LOGGED');
+    window.location.href = 'login.html';
+  });
 }
 
 export function displayFormErrors(errorObj, form) {

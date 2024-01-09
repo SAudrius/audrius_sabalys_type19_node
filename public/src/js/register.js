@@ -3,11 +3,14 @@ import {
   fetchData,
   createOptionArr,
   displayFormErrors,
-  hasToken,
+  checkForToken,
+  fetchNavigation,
 } from './modules/helper.js';
 
 (async () => {
-  if (!hasToken()) return;
+  const isLogged = await checkForToken();
+  if (isLogged === true) return;
+  fetchNavigation(isLogged);
   const [result, err] = await fetchData(`${baseUrl}/v1/api/users_roles`);
   if (err) {
     console.log('err ===', err);
@@ -45,7 +48,6 @@ import {
       console.log('errors needs to be displayed');
       console.log(rows);
       displayFormErrors(rows, tar);
-
       // display error
       return;
     }

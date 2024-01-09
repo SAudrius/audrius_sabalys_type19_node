@@ -5,10 +5,16 @@ import {
   createOptionArr,
   findUserOrders,
   checkForToken,
+  fetchNavigation,
 } from './modules/helper.js';
 
 (async () => {
-  if ((await checkForToken()) === false) return;
+  const isLogged = await checkForToken();
+  if (isLogged === false) {
+    window.location.href = 'login.html';
+    return;
+  }
+  fetchNavigation(isLogged);
   const [usersArr, error] = await fetchData(`${baseUrl}/v1/api/users`);
   if (error) {
     console.warn('Server error');

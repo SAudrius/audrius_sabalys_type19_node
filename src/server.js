@@ -8,6 +8,7 @@ const ordersRoute = require('./routes/v1/ordersRoutes');
 const usersRolesRouter = require('./routes/v1/usersRolesRoutes');
 const itemsTypes = require('./routes/v1/itemsTypesRoute');
 const usersRoute = require('./routes/v1/usersRoutes');
+const htmlRouter = require('./routes/v1/htmlRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5002;
@@ -24,6 +25,7 @@ app.use('/v1/api/shop_items', shopItemsRouter);
 app.use('/v1/api/orders', ordersRoute);
 app.use('/v1/api/users_roles', usersRolesRouter);
 app.use('/v1/api/users', usersRoute);
+app.use('/v1/api/html', htmlRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
