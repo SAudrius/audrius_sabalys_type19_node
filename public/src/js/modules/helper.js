@@ -112,6 +112,7 @@ export async function fetchNavigation(logged = false) {
   let footerErr;
   // jeigu neprisijunges
   if (logged === false) {
+    console.log('neprisijunges');
     [header, headerErr] = await fetchData(
       `${baseUrl}/v1/api/html/nav`,
       'GET',
@@ -145,7 +146,7 @@ export async function fetchNavigation(logged = false) {
     );
   }
   // jeigu ne admins bet prisijunges
-  if (role !== 'admin' && role !== false) {
+  if (role !== 'admin' && logged !== false) {
     [header, headerErr] = await fetchData(
       `${baseUrl}/v1/api/html/nav-logged`,
       'GET',
@@ -171,7 +172,7 @@ export async function fetchNavigation(logged = false) {
   const logoutNodeArr = document.querySelectorAll('.logout');
   logoutNodeArr.forEach((element) => eventLogout(element));
   const headerEl = document.querySelector('header');
-  const hamburger = header.querySelector('#hamburger');
+  const hamburger = headerEl.querySelector('#hamburger');
   createHamburgerClick(headerEl, hamburger);
 }
 
@@ -184,7 +185,6 @@ export async function checkForToken() {
     token
   );
   if (tokenErr) {
-    console.log('tokenErr ===', tokenErr);
     console.warn('Server Error');
     return false;
   }
@@ -205,9 +205,7 @@ export function hasToken() {
 }
 
 export function eventLogout(el) {
-  console.log('el ===', el);
   el.addEventListener('click', () => {
-    console.log('click');
     localStorage.removeItem('LOGGED');
     window.location.href = 'login.html';
   });
@@ -221,13 +219,12 @@ export async function getIdFromServer() {
     token
   );
   if (tokenErr) {
-    console.log('tokenErr ===', tokenErr);
     console.warn('Server Error');
     return;
   }
-  console.log('token.user_id ===', tokenRes.user_id);
   return tokenRes.user_id;
 }
+
 export async function getRoleFieldFromServerToken(field) {
   const token = localStorage.getItem('LOGGED');
   const [tokenRes, tokenErr] = await fetchData(
@@ -237,11 +234,9 @@ export async function getRoleFieldFromServerToken(field) {
     token
   );
   if (tokenErr) {
-    console.log('tokenErr ===', tokenErr);
     console.warn('Server Error');
     return;
   }
-  console.log('tokenRes ===', tokenRes);
   return tokenRes[field];
 }
 
@@ -257,6 +252,7 @@ export function displayFormErrors(errorObj, form) {
     element.classList.add('border-primary');
     element.classList.remove('border-red-500');
   });
+  // there is better way :\
   for (const [key, value] of Object.entries(errorObj.errors)) {
     const inputElement = form.querySelector(`#${value.key}`);
     const elementToAppend = inputElement.parentElement;
@@ -265,7 +261,6 @@ export function displayFormErrors(errorObj, form) {
       [{ class: ['mt-1', 'text-red-500', 'error-field-active'] }],
       value.message
     );
-    console.log('element ===', element);
     elementToAppend.append(element);
     inputElement.classList.remove('border-primary');
     inputElement.classList.add('border-red-500');
@@ -408,7 +403,6 @@ export async function displayCard(obj) {
     ],
     'Add to Cart'
   );
-  console.log('role ===', role);
   if (role === 'admin') {
     const buttonDel = createElement(
       'button',
