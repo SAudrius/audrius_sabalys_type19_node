@@ -9,7 +9,10 @@ import {
 
 (async () => {
   const isLogged = await checkForToken();
-  if (isLogged === true) return;
+  if (isLogged === true) {
+    window.location.href = 'index.html';
+    return;
+  }
   fetchNavigation(isLogged);
   const [result, err] = await fetchData(`${baseUrl}/v1/api/users_roles`);
   if (err) {

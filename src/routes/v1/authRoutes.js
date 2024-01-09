@@ -81,7 +81,8 @@ authRoute.post('/token', (req, res) => {
       res.status(403).json({ msg: 'token is not valid', status: 'false' });
       return;
     }
-    res.status(200).json({ msg: 'login in', status: 'true' });
+    const userId = data.user_id;
+    res.status(200).json({ user_id: userId, status: 'true' });
   });
 });
 

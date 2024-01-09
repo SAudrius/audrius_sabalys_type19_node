@@ -195,6 +195,22 @@ export function eventLogout(el) {
     window.location.href = 'login.html';
   });
 }
+export async function getIdFromServer() {
+  const token = localStorage.getItem('LOGGED');
+  const [tokenRes, tokenErr] = await fetchData(
+    `${baseUrl}/v1/api/auth/token`,
+    'POST',
+    null,
+    token
+  );
+  if (tokenErr) {
+    console.log('tokenErr ===', tokenErr);
+    console.warn('Server Error');
+    return;
+  }
+  console.log('token.user_id ===', tokenRes.user_id);
+  return tokenRes.user_id;
+}
 
 export function displayFormErrors(errorObj, form) {
   // delete error messages before creating new
@@ -309,7 +325,7 @@ export function createOrderCard(obj) {
   return mainDiv;
 }
 
-export function displayCard(obj) {
+export async function displayCard(obj) {
   const id = obj.id;
   const price = obj.price;
   const name = obj.name;
@@ -351,6 +367,7 @@ export function displayCard(obj) {
           'text-white',
           'bg-red-400',
           'rounded-xl',
+          'cursor-pointer',
         ],
       },
       { type: ['button'] },
@@ -375,8 +392,46 @@ export function displayCard(obj) {
     ],
     'Add to Cart'
   );
+  createCardDelete(buttonDel, id);
+  createAddToCart(buttonAddToCart, id, price);
   buttonDiv.append(buttonDel, buttonAddToCart);
   secondDiv.append(nameEl, priceEl, descriptionEl, buttonDiv);
   mainDiv.append(imgEl, secondDiv);
   els.shop.cards.append(mainDiv);
+}
+
+export function createAddToCart(element, itemId, price) {
+  element.addEventListener('click', async () => {
+    console.log('click');
+    const userId = await getIdFromServer();
+    const postObj = {
+      user_id: userId,
+      shop_item_id: itemId,
+      quantity: 1,
+      total_price: price,
+    };
+    const [res, err] = await fetchData(
+      `${baseUrl}/v1/api/orders`,
+      'POST',
+      postObj
+    );
+    if (err) {
+      console.warn('server error');
+    }
+    // order created ...
+  });
+}
+
+export function createCardDelete(element, itemId) {
+  element.addEventListener('click', async (e) => {
+    const greatGrandParent = e.target.parentElement.parentElement.parentElement;
+    const [res, err] = await fetchData(
+      `${baseUrl}/v1/api/shop_items/${itemId}`,
+      'DELETE'
+    );
+    if (err) {
+      console.warn('server error');
+    }
+    greatGrandParent.remove();
+  });
 }

@@ -20,5 +20,5 @@ import {
     console.warn('server Error');
     return;
   }
-  result.forEach((singleOrder) => displayCard(singleOrder));
+  result.forEach(async (singleOrder) => await displayCard(singleOrder));
 })();

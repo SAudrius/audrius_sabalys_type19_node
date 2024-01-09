@@ -25,7 +25,7 @@ function getValidationErrors(err) {
 
 function createAccessToken(userId, email) {
   const accessToken = jwt.sign(
-    { userId, email },
+    { user_id: userId, email },
     process.env.AUTH_TOKEN_SECRET
   );
   return accessToken;
