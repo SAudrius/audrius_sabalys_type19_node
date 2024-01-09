@@ -2,6 +2,7 @@ const express = require('express');
 const { dbQueryWithData } = require('../../helper');
 const fs = require('fs').promises;
 
+// skirtingi html failai priklausantis nuo roles ir ar prisijunges kurios siunciu i fronta
 const htmlRouter = express.Router();
 
 htmlRouter.get('/nav', async (req, res) => {
