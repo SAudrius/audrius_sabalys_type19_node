@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const { dbQueryWithData, createAccessToken } = require('../../helper');
 const { validateUsers } = require('../../middleware');
 
@@ -31,7 +32,11 @@ authRoute.post('/register', validateUsers, async (req, res) => {
   // eslint-disable-next-line operator-linebreak
   const sql =
     'INSERT INTO users (name, email, password, role_id) VALUES (?, ?, ?, ?)';
-  const argArr = [name, email, password, roleId];
+  // hashing & salting password
+  const salt = await bcrypt.genSalt();
+  const saltHashPassword = await bcrypt.hash(password, salt);
+  // argumentu arr
+  const argArr = [name, email, saltHashPassword, roleId];
   const [usersArr, err] = await dbQueryWithData(sql, argArr);
   if (err || emailCountError) {
     res.status(500).json('Server Error');
@@ -84,7 +89,9 @@ authRoute.post('/login', async (req, res) => {
     res.status(500).json('Server Error');
     return;
   }
-  if (userArr[0]?.password !== password || userArr.length <= 0) {
+  const passwordMatch = await bcrypt.compare(password, userArr[0]?.password);
+  console.log('passwordMatch ===', passwordMatch);
+  if (!passwordMatch || userArr.length <= 0) {
     res.json({
       errors: [
         {
