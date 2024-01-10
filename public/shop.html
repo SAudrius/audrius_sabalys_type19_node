@@ -12,27 +12,20 @@
     />
     <title>Document</title>
     <link href="./dist/output.css" rel="stylesheet" />
-    <script type="module" src="./src/js/front.js" defer></script>
+    <script type="module" src="./src/js/shop.js" defer></script>
   </head>
   <body class="font-montserrat">
     <header class="relative py-5 bg-secondary"></header>
-    <section class="container grid justify-center px-4 mx-auto shop sm:px-0">
-      <h1 class="my-16 text-5xl text-center">Orders</h1>
-      <div class="flex flex-col w-full max-w-3xl m-auto mb-16">
-        <label for="users">Users</label>
-        <select
-          name="users"
-          id="users"
-          class="box-border px-4 py-3 border border-primary bg-secondary rounded-xl"
-        >
-          <option disabled value="" selected>Select User</option>
-        </select>
-      </div>
+    <div class="container grid justify-center mx-auto">
+      <h1 class="my-16 text-5xl text-center">Shop</h1>
       <div
         id="cards"
         class="grid justify-center gap-10 sm:max-w-640 sm:grid-cols-2 lg:grid-cols-3 lg:max-w-980"
       ></div>
-    </section>
+      <p class="mt-16 text-center underline cursor-pointer hover:text-blue-950">
+        View More
+      </p>
+    </div>
     <footer class="grid px-4 py-10 mt-20 sm:px-0 bg-secondary"></footer>
   </body>
 </html>

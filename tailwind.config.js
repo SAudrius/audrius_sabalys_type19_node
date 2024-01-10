@@ -1,7 +1,22 @@
 module.exports = {
-  content: ['./public/**/*.{html,js}'],
+  content: ['./public/**/*.{html,js}', './src/components/**/*.{html,js}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+      },
+      colors: {
+        primary: '#7A9FFF',
+        secondary: '#FFE2C8',
+      },
+      maxWidth: {
+        640: '640px',
+        980: '980px',
+      },
+      width: {
+        300: '300px',
+      },
+    },
   },
   plugins: [],
 };

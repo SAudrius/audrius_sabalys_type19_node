@@ -1,0 +1,35 @@
+<div class="container px-4 mx-auto sm:px-0">
+  <div class="flex items-center justify-between gap-8">
+    <p class="text-3xl font-medium text-primary hover:text-blue-950">
+      <a href="index.html">ILove2Shop</a>
+    </p>
+    <nav id="nav" class="flex hidden w-full gap-8 md:items-center md:flex">
+      <ul id="ul" class="flex items-center justify-end w-full gap-8">
+        <li class="text-xl hover:text-blue-900">
+          <a href="shop.html">Shop</a>
+        </li>
+        <li class="text-xl cursor-pointer logout hover:text-blue-900">
+          Log out
+        </li>
+        <li>
+          <a href="add-item.html"
+            ><button
+              class="w-32 py-3 font-medium text-white rounded-lg bg-primary hover:bg-blue-950"
+            >
+              Add item
+            </button>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div
+      id="hamburger"
+      data-status="inactive"
+      class="w-8 my-auto cursor-pointer md:hidden"
+    >
+      <div class="w-full h-1 duration-200 rounded-sm bg-primary"></div>
+      <div class="w-full h-1 mt-1.5 bg-primary rounded-sm duration-200"></div>
+      <div class="w-full h-1 mt-1.5 bg-primary rounded-sm duration-200"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script type="module" src="./src/js/register.js" defer></script>
+  </head>
+  <body class="font-montserrat">
+    <header class="relative py-5 bg-secondary"></header>
+    <div class="container mx-auto">
+      <h1 class="my-16 text-5xl text-center">Register</h1>
+      <form id="registerForm" class="max-w-3xl mx-auto">
+        <div class="flex flex-col w-full m-auto">
+          <label for="name" class="text-xl">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Your name"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="email" class="text-xl">Email</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Your email"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="password" class="text-xl">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Your password"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="repeat_password" class="text-xl">Repeat Password</label>
+          <input
+            type="password"
+            id="repeat_password"
+            name="repeat_password"
+            placeholder="Repeat password"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="role_id" class="text-xl">Your role</label>
+          <select
+            name="role_id"
+            id="role_id"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          >
+            <option disabled value="" selected>Select User</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          class="col-span-1 px-5 py-3 mt-6 text-white uppercase justify-self-end bg-primary rounded-xl"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+    <footer class="grid px-4 py-10 mt-20 sm:px-0 bg-secondary"></footer>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+    <script type="module" src="./src/js/addItem.js" defer></script>
+  </head>
+  <body class="font-montserrat">
+    <header class="relative py-5 bg-secondary"></header>
+    <div class="container mx-auto">
+      <h1 class="my-16 text-5xl text-center">Add item</h1>
+      <form id="addItem" class="max-w-3xl mx-auto">
+        <div class="flex flex-col w-full m-auto">
+          <label for="name" class="text-xl">Item name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Item name"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="price" class="text-xl">Price</label>
+          <input
+            type="text"
+            id="price"
+            name="price"
+            placeholder="example 11.99"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="description" class="text-xl">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Your description"
+            class="box-border h-32 px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          ></textarea>
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="image" class="text-xl">Image url</label>
+          <input
+            type="url"
+            id="image"
+            value="https://picsum.photos/seed/picsum/200/300"
+            name="image"
+            placeholder="Your url"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          />
+        </div>
+        <div class="flex flex-col w-full m-auto mt-6">
+          <label for="itemType" class="text-xl">Item type</label>
+          <select
+            name="itemType"
+            id="item_type_id"
+            class="box-border px-4 py-3 mt-2 font-medium border border-primary bg-secondary rounded-xl"
+          >
+            <option disabled value="" selected>Select item type</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          class="col-span-1 px-5 py-3 mt-6 text-white justify-self-end bg-primary rounded-xl"
+        >
+          Add to Cart
+        </button>
+      </form>
+    </div>
+    <footer class="grid px-4 py-10 mt-20 sm:px-0 bg-secondary"></footer>
+  </body>
+</html>
